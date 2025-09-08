@@ -1,0 +1,324 @@
+#add-button{
+  width : 100px;
+  height: 30px;
+  margin-top: 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#ok-button{
+  margin-left: 10px;
+  width : 50px;
+  height: 30px;
+  margin-top: 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  transition: background-color 0.3s ease;
+}
+
+.done-button{
+  margin-left: 10px;
+  width : 50px;
+  height: 30px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: grey;
+  transition: background-color 0.3s ease;
+}
+
+.done-button.completed{
+  margin-left: 10px;
+  width : 50px;
+  height: 30px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #28a745;
+  transition: background-color 0.3s ease;
+}
+
+#delete-button{
+  margin-left: 10px;
+  width : 50px;
+  height: 30px;;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #dc3545;
+}
+
+ul{
+  list-style-type: none;
+  padding: 0;
+}
+#task-card{
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  text-align: center;
+  margin-top: 30px;
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.task-list.completed{
+  text-decoration: line-through;
+  color: grey;
+  transition: color 0.3s ease;
+}
+
+.task-list.completed .button-group,
+.task-list.completed .button-group * {
+  text-decoration: none !important;
+  color: white !important; 
+}
+
+#update-button{
+  margin-left: 10px;
+  width : 60px;
+  height: 30px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  font-family: Arial, sans-serif;
+}
+
+.notification.show {  
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification.hide {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.create-task {
+  display: flex;
+  opacity: 0;
+  flex-direction: column;
+  margin-left: 100px;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 10px 100px rgb(34, 34, 34);
+  transition: opacity 0.2s ease, transform 0.2s ease , border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#create-task.show {
+  opacity: 1;
+  transform: translateY(20px);
+}
+
+#create-task.hide {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.react-datepicker__input-container input{
+  width:70px;
+  height: 10px;
+}
+
+label{
+  font-family: Arial, sans-serif;
+  margin-top: 25px;
+}
+
+.circle-checkbox{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #888;
+  border-radius: 50%;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.circle-checkbox:checked{
+  background-color: #056fb6;
+  border-color: #056fb6;
+}
+
+.circle-checkbox:checked::after{
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+#priority-options{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+
+.button-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.task-meta{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+
+
+header{
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: 70px;
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
+nav{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+}
+h1 {
+  position: absolute;
+  left: 50%;
+  margin-top: 35px;
+  transform: translateX(-50%);
+  font-size: 30px;
+  color: #333;
+}
+
+
+#theme-toggle{
+  width : 100px;
+  height: 30px;
+  margin-top: 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+body.dark-theme {
+  background-color: #121212;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme header {
+  background-color: #1e1e1e;
+  color: white;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme div#root {
+  background-color: #121212;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme h1 {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme #sidebar {
+  background-color: #1e1e1e;
+  box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+  transition: background-color 0.3s ease;
+}
+
+body.dark-theme .create-task {
+  border: 3px solid rgb(177, 175, 175);
+  box-shadow: 0px 10px 70px rgb(236, 236, 236);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#sidebar{
+  width: 200px;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(255, 255, 255, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.blur {
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.overlay {
+  position: fixed;
+  opacity: 0;
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay.show {
+  opacity:1;
+  pointer-events: auto;
+}
+
+.overlay.hide {
+  pointer-events: none;
+}
+
