@@ -7,6 +7,15 @@
   border-radius: 4px;
   margin-top: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#add-button:hover{
+  background-color: #218838;
+}
+
+#add-button:active{
+  transform: scale(0.95);
 }
 
 #ok-button{
@@ -19,7 +28,15 @@
   border-radius: 4px;
   cursor: pointer;
   background-color: #007bff;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#ok-button:hover{
+  background-color: #0056b3;
+}
+
+#ok-button:active{
+  transform: scale(0.95);
 }
 
 .done-button{
@@ -30,11 +47,18 @@
   border-radius: 4px;
   cursor: pointer;
   background-color: grey;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.done-button:hover{
+  background-color: #393a39;
+}
+
+.done-button:active{
+  transform: scale(0.95);
 }
 
 .done-button.completed{
-  margin-left: 10px;
   width : 50px;
   height: 30px;
   color: white;
@@ -43,6 +67,10 @@
   cursor: pointer;
   background-color: #28a745;
   transition: background-color 0.3s ease;
+}
+
+.done-button.completed:hover{
+  background-color: #218838;
 }
 
 #delete-button{
@@ -54,6 +82,15 @@
   border-radius: 4px;
   cursor: pointer;
   background-color: #dc3545;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#delete-button:hover{
+  background-color: #77141e;
+}
+
+#delete-button:active{
+  transform: scale(0.95);
 }
 
 ul{
@@ -113,6 +150,15 @@ input[type="text"] {
   border-radius: 4px;
   cursor: pointer;
   background-color: #007bff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#update-button:hover{
+  background-color: #0056b3;
+}
+
+#update-button:active{
+  transform: scale(0.95);
 }
 
 .notification {
@@ -249,6 +295,15 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   margin-top: 5px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#theme-toggle:hover{
+  background-color: #218838;
+}
+
+#theme-toggle:active{
+  transform: scale(0.95);
 }
 
 .body {
