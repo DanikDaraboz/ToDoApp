@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,7 +9,8 @@ function App() {
   const [tasks,setTasks] = useState([]);
   const [notification,setNotification] = useState({show:false, message:""});
   const [showTask, setShowTask] = useState(false);
-
+  const [editingIndex,setEditingIndex] = useState(null);
+  const [editingTask,setEditingTask] = useState(null);
   const showTaskForm = ()=>{
     setShowTask(!showTask);
 
@@ -29,11 +30,7 @@ function App() {
     <>
       <Header 
         showTask={showTask}
-      />
-
-      <SideBar
-        showTask={showTask}
-        showTaskForm={showTaskForm} 
+        showTaskForm={showTaskForm}
       />
 
       <TaskCard
@@ -41,6 +38,9 @@ function App() {
         setTasks={setTasks}
         showNotification={showNotification}
         showTask={showTask}
+        setShowTask={setShowTask}
+        setEditingIndex={setEditingIndex}
+        setEditingTask={setEditingTask}
       />
 
       <TaskForm
@@ -49,6 +49,10 @@ function App() {
         showNotification={showNotification}
         showTask={showTask}
         setShowTask={setShowTask}
+        editingIndex={editingIndex}
+        setEditingIndex={setEditingIndex}
+        editingTask={editingTask}
+        setEditingTask={setEditingTask}
       />
 
       <Notification 
@@ -58,7 +62,7 @@ function App() {
 }
 
 
-function Header({showTask}) {
+function Header({showTask, showTaskForm}) {
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleTheme = ()=>{
@@ -69,35 +73,60 @@ function Header({showTask}) {
   return (
     <header className={showTask?"blur":""}>
       <nav>
-        <h1>To Do App</h1>
+        <div className='center' style={{width:'220px'}}></div>
+        <div className='center-header'>
+          <h1>To Do App</h1>
+          <button id="add-button" onClick={showTaskForm}>Add Task</button>
+        </div>
         <button id="theme-toggle" onClick={toggleTheme}>Toggle Theme</button>
       </nav>
     </header>
   )
 }
 
-function TaskForm({tasks, setTasks, showNotification,showTask,setShowTask}) {
-  const [input,setInput] = useState("");
-  const [plannedDate, setPlannedDate] = useState(new Date());
-  const [priority, setPriority] = useState("");
-  const [description, setDescription] = useState("");
+function TaskForm({tasks, setTasks, showNotification,showTask,setShowTask, editingIndex, setEditingIndex, editingTask, setEditingTask}) {
+  const [input,setInput] = useState(editingTask ? editingTask.text : "");
+  const [plannedDate, setPlannedDate] = useState(editingTask ? new Date(editingTask.plannedDate) : new Date());
+  const [priority, setPriority] = useState(editingTask ? editingTask.priority : "");
+  const [description, setDescription] = useState(editingTask ? editingTask.description : "");
 
-  const addTask = ()=>{
-    if(input==="") return;
-    const now = new Date();
-    const time = now.toLocaleString();
-    const newTask ={
-      text: input,
-      time: time,
-      done: false,
-      plannedDate: plannedDate,
-      priority: priority,
-      description: description,
+  useEffect(() => {
+    if (editingTask) {
+      setInput(editingTask.text);
+      setPlannedDate(new Date(editingTask.plannedDate));
+      setPriority(editingTask.priority);
+      setDescription(editingTask.description);
     }
-    setTasks([...tasks,newTask]);
+  }, [editingTask]);
+
+  const handleSave = () => {
+    if (input === "") return;
+    if (editingTask) {
+      const updatedTasks = tasks.map((task, index) =>
+        index === editingIndex
+          ? { ...task, text: input, plannedDate, priority, description }
+          : task
+      );
+      setTasks(updatedTasks);
+      showNotification("Task updated successfully!");
+      setEditingIndex(null);
+      setEditingTask(null);
+    } else{
+        const now = new Date();
+        const time = now.toLocaleString();
+        const newTask ={
+          text: input,
+          time: time,
+          done: false,
+          plannedDate: plannedDate,
+          priority: priority,
+          description: description,
+        }
+        setTasks([...tasks,newTask]);
+        showNotification("Task added successfully!");
+    }
     setInput("");
     setDescription("");
-    showNotification("Task added successfully!");
     setShowTask(false);
   }
   return (
@@ -125,16 +154,13 @@ function TaskForm({tasks, setTasks, showNotification,showTask,setShowTask}) {
           </label>
         </div>
           <DatePicker selected={plannedDate} onChange={(date) => setPlannedDate(date)} dateFormat={"dd//MM/yyyy"}/>
-          <button id="add-button" onClick={addTask}>Add</button>
+          <button id="add-button" onClick={handleSave}>{editingTask? "Update" : "Add"}</button>
       </div>
     </div>
   )
 }
 
-function TaskCard({tasks, setTasks, showNotification,showTask}) {
-  const [changeInput,setChangeInput] = useState("");
-  const [editingIndex,setEditingIndex] = useState(null);
-
+function TaskCard({tasks, setTasks, showNotification,showTask,setShowTask, setEditingIndex, setEditingTask}) {
   const taskDone = (index)=>{
     const updatedTasks = tasks.map((task,i)=>i===index?{...task,done:!task.done}:task);
     setTasks(updatedTasks);
@@ -149,45 +175,57 @@ function TaskCard({tasks, setTasks, showNotification,showTask}) {
 
   const updateTask = (index)=>{
     setEditingIndex(index);
-    setChangeInput(tasks[index].text);
+    setEditingTask(tasks[index]);
+    setShowTask(true);
   }
 
-  const confirmChange = (index)=>{
-    if (changeInput == null || changeInput === "") return;
-    const updatedTasks = tasks.map((task,i)=>i===index?{...task,text:changeInput}:task);
-    setTasks(updatedTasks);
-    setEditingIndex(null);
-    setChangeInput("");
-    showNotification("Task updated successfully!");
-  }
+  // const confirmChange = (index)=>{
+  //   if (changeInput == null || changeInput === "") return;
+  //   const updatedTasks = tasks.map((task,i)=>i===index?{...task,text:changeInput}:task);
+  //   setTasks(updatedTasks);
+  //   setEditingIndex(null);
+  //   setChangeInput("");
+  //   showNotification("Task updated successfully!");
+  // }
 
   return (
     <ul id="task-cards" className={showTask?"blur":""}>
       {tasks.map((task, index) => (
-        <div id="task-card">
           <li key={index} className={`task-list ${task.done ? "completed" : ""}`}>
-            {editingIndex === index ? 
-            (<>
-              <input type='text' value={changeInput} onChange={(e) => setChangeInput(e.target.value)} /> 
-              <button id='ok-button' onClick={()=>confirmChange(index)}>OK</button>
-            </>) : 
-            (<>
-              <div>{task.text}</div>
-              <div>{task.description}</div>
-              <div style={{ marginLeft: '10px', fontSize: '1em', color: '#888' }}>Do before: {task.plannedDate?.toLocaleDateString()}</div>
-              <div className='button-group'>
-                <button className={`done-button ${task.done ? "completed" : ""}`} onClick={()=> taskDone(index)}>Done</button>
-                <button id="delete-button" onClick={()=> deleteTask(index)}>Delete</button>
-                <button id="update-button" onClick={()=> updateTask(index)}>Update</button>
+            
+            <hr style={{width:'100%'}} />
+            <div style={{display:'flex', gap:'10px'}}>
+            <span className='priority-dot' style={{
+              backgroundColor: 
+              task.priority === "High" ? "rgba(255, 0, 0, 0.1)" 
+              : task.priority === "Medium" ? "rgba(0, 0, 255, 0.1)" 
+              : task.priority === "Low" ? "rgba(0, 128, 0, 0.1)" 
+              : "transparent",
+              border:
+              task.priority === "High" ? "2.5px solid red"
+              : task.priority === "Medium" ? "2.5px solid blue"
+              : task.priority === "Low" ? "2.5px solid green"
+              : "none"
+            }}></span>
+              <div>
+                <div style={{fontSize:'1.1em'}}>{task.text}</div>
+                <div style={{fontSize:'0.8em'}} className='task-description'>{task.description}</div>
+                <div style={{ fontSize: '1em', color: '#888' }}>{task.plannedDate?.toLocaleDateString()}</div>
+                <div className='button-group'>
+                  <button className={`done-button ${task.done ? "completed" : ""}`} onClick={()=> taskDone(index)}>Done</button>
+                  <button id="delete-button" onClick={()=> deleteTask(index)}>Delete</button>
+                  <button id="update-button" onClick={()=> updateTask(index)}>Update</button>
+                </div>
+                <div className='task-meta'>
+                  <span className={`priority-indicator ${task.priority}`} style={{fontSize:'0.7em'}}>Priority: {task.priority} </span>
+                  <span style={{ marginLeft: '10px', fontSize: '0.7em', color: '#888' }}>Created on: ({task.time})</span>
+                </div>
               </div>
-              <div className='task-meta'>
-                <span className={`priority-indicator ${task.priority}`} style={{fontSize:'0.7em'}}>Priority: {task.priority} </span>
-                <span style={{ marginLeft: '10px', fontSize: '0.7em', color: '#888' }}>Created on: ({task.time})</span>
-              </div>
-            </>)}
+            </div>
           </li>
-        </div>
       ))}
+      {tasks.length > 0 && <hr style={{width:'100%'}} />}
+      {tasks.length === 0 && <p style={{textAlign:'center', color:'#888', marginTop:'20px'}}>No tasks available. Add a new task!</p>}
     </ul>
   )
 }
@@ -195,23 +233,6 @@ function TaskCard({tasks, setTasks, showNotification,showTask}) {
 function Notification({notification}) {
   return (
     <div className={`notification ${notification.show ? "show": "hide"}`} id="notification">{notification.message}</div>
-  )
-}
-
-function SideBar({showTask,showTaskForm}) {
-  return (
-    <div id="sidebar" className={showTask?"blur":""}>
-      <button id="add-button" onClick={showTaskForm}>Add Task</button>
-      <h2>Categories</h2>
-      <ul>
-        <li>All Tasks</li>
-        <li>Completed Tasks</li>
-        <li>Pending Tasks</li>
-        <li>High Priority</li>
-        <li>Medium Priority</li>
-        <li>Low Priority</li>
-      </ul>
-    </div>
   )
 }
 
