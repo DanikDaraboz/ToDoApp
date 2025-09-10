@@ -399,3 +399,75 @@ body.dark-theme .create-task {
   gap: 20px;
   flex: 1;
 }
+
+
+@media (max-width: 600px) {
+  #task-card {
+    width: 90%;
+  }
+
+  .task-list {
+    width: 100%;
+  }
+
+  .task-description {
+    width: 90%;
+  }
+
+  input[type="text"] {
+    width: 80%;
+  }
+
+  #sidebar {
+    width: 150px;
+    padding: 10px;
+  }
+
+  #add-button, #theme-toggle {
+    width: 75px;
+    height: 35px;
+    font-size: 12px;
+  }
+
+  #theme-toggle {
+    margin-left: 10px;
+  }
+
+  #ok-button, .done-button, #delete-button, #update-button {
+    width: 65px;
+    height: 25px;
+    font-size: 12px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  .create-task {
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+    transform: scale(0.9);
+    margin-left: 0px;
+  }
+
+
+  .create-task #add-button, .create-task #ok-button {
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .react-datepicker__input-container input{
+    width:70px;
+    height: 10px;
+  }
+
+  .done-button.done-button.completed{
+    width : 65px;
+    height: 25px;
+    font-size: 12px;
+  }
+
+  
+}
